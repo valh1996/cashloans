@@ -18,6 +18,8 @@ const Route = use('Route')
 
 const API_PREFIX = 'api';
 
+Route.get('/',  () => 'API v1 - CashLoans').prefix(`${API_PREFIX}/`)
+
 // User group routes
 Route
   .group(() => {
