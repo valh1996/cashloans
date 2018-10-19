@@ -1,17 +1,59 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <v-ons-page>
+      <v-ons-toolbar>
+        <div class="center">{{ title }}</div>
+      </v-ons-toolbar>
+
+    <v-ons-tabbar swipeable position="auto"
+      :tabs="tabs"
+      :visible="true"
+      :index.sync="activeIndex"
+    >
+    </v-ons-tabbar>
+
+    </v-ons-page>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Home from './components/Home.vue'
+import About from './components/About.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Home,
+    About
+  },
+  data() {
+    return {
+      activeIndex: 0,
+      tabs: [
+        {
+          icon: this.md() ? null : 'ion-card',
+          label: 'Liste des prêts',
+          page: Home,
+          key: "home-page"
+        },
+        {
+          icon: this.md() ? null : 'ion-information-circled',
+          label: 'À propos',
+          page: About,
+          key: "about-page"
+        }
+      ]
+    };
+  },
+  methods: {
+    md() {
+      return this.$ons.platform.isAndroid();
+    }
+  },
+  computed: {
+    title() {
+      return this.tabs[this.activeIndex].label;
+    }
   }
 }
 </script>

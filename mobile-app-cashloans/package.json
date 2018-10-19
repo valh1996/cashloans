@@ -14,7 +14,9 @@
     "cordova-serve-ios": "vue-cli-service cordova-serve-ios"
   },
   "dependencies": {
-    "vue": "^2.5.17"
+    "onsenui": "^2.10.5",
+    "vue": "^2.5.17",
+    "vue-onsenui": "^2.6.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.4",
