@@ -42,7 +42,7 @@ export default {
           page: About,
           key: "about-page"
         }
-      ]
+      ],
     };
   },
   methods: {
