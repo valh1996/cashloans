@@ -19,6 +19,7 @@
 
 <script >
   import LoanDetail from './LoanDetail'
+  import LoansService from '../services/LoansService'
 
   export default {
     name: 'Home',
@@ -29,13 +30,11 @@
       }
     },
     created: function() {
-      this.axios.get(`${process.env.VUE_APP_API_ENDPOINT}/loans`, {
-        headers: {
-          'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU0MTA3NDY3N30.0tNRbgK01KPwSv2oma1rMMJEf-55leSj6Mm5PcyS9DA'
-        }
-      }).then((response) => {
-        this.loans = response.data;
-      })
+      LoansService.getAll()
+        .then(response => {
+          this.loans = response.data;
+        })
+        .catch(err => console.log(err))
 
     },
     methods: {
