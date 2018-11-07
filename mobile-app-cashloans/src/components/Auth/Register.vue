@@ -54,7 +54,7 @@
   }
 
   .btn.login {
-    
+
   }
 
   .btn.register {

@@ -1,7 +1,7 @@
-<template id="home-page">
+<template id="loans-page">
   <v-ons-page>
     <v-ons-list>
-      <v-ons-list-item v-for="loan in loans" :key="loan.id" @click="push">
+      <v-ons-list-item v-for="loan in loans" :key="loan.id" @click="getLoanDetail(loan.id)">
         <div class="center">
           <span class="list-item__title">{{ loan.borrower_name }}</span><span class="list-item__subtitle">{{ (loan.returned) ? 'Remboursé' : 'Non remboursé' }}</span>
         </div>
@@ -22,8 +22,8 @@
   import LoansService from '../services/LoansService'
 
   export default {
-    name: 'Home',
-    template: '#home-page',
+    name: 'Loans',
+    template: '#loans-page',
     data() {
       return {
         loans: [],
@@ -38,9 +38,8 @@
 
     },
     methods: {
-      push() {
-        this.$emit('push-page', LoanDetail);
-        //console.log(this.$parent.pageStack)
+      getLoanDetail(id) {
+        this.$router.push({ name: 'LoanDetail', params: { id: id }})
       }
     }
   }

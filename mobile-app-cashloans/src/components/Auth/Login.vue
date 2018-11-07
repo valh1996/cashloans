@@ -24,7 +24,7 @@
             </label>
           </v-ons-list-item>
           <v-ons-list-item>
-            <v-ons-button class="btn login">Se connecter</v-ons-button>
+            <v-ons-button class="btn login" @click="login">Se connecter</v-ons-button>
             <v-ons-button modifier="outline" class="btn register" @click="pushRegisterPage">Pas encore inscrit ?</v-ons-button>
           </v-ons-list-item>
         </v-ons-list>
@@ -68,6 +68,9 @@ export default {
   methods: {
     pushRegisterPage() {
       this.$router.push({ name: 'Register'})
+    },
+    login() {
+      this.$router.push({ name: 'Loans'})
     }
   }
 }

@@ -1,7 +1,7 @@
 <template id="loan-detail-page">
   <v-ons-page>
     <p>
-      Détails
+      Emprunt #{{ id }}
     </p>
   </v-ons-page>
 </template>
@@ -16,6 +16,12 @@
 <script>
   export default {
     name: 'LoanDetail',
-    template: '#loan-detail-page'
+    template: '#loan-detail-page',
+    props: ['id'],
+    data() {
+      return {
+
+      }
+    },
   }
 </script>
