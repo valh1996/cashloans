@@ -18,7 +18,7 @@
 </style>
 
 <script >
-  import LoanDetail from './LoanDetail'
+  import LoanDetail from './LoanDetail.vue'
   import LoansService from '../services/LoansService'
 
   export default {
@@ -34,12 +34,13 @@
         .then(response => {
           this.loans = response.data;
         })
-        .catch(err => console.log(err))
+        //.catch(err => console.log(err))
 
     },
     methods: {
       push() {
         this.$emit('push-page', LoanDetail);
+        //console.log(this.$parent.pageStack)
       }
     }
   }
