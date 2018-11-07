@@ -70,7 +70,7 @@ export default {
       this.$router.push({ name: 'Register'})
     },
     login() {
-      this.$router.push({ name: 'Loans'})
+      this.$router.push({ name: 'Layout'})
     }
   }
 }
