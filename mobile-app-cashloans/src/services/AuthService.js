@@ -17,7 +17,16 @@ export default {
             password: password,
         })
     },
-
+    /**
+     * Logout from API
+     */
+    Logout(){
+        return Axios.post(`${API_ENDPOINT}/user/logout`, {
+              headers: {
+                  'Content-Type': 'application/json',
+              }
+          })
+      },
    
 
 }

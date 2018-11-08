@@ -16,6 +16,7 @@
 <script>
 import Loans from '../Loans.vue'
 import About from '../About.vue'
+import Parameters from '../Parameters.vue'
 
 export default {
   name: 'Page',
@@ -28,13 +29,19 @@ export default {
       activeIndex: 0,
       tabs: [
         {
-          icon: this.md() ? null : 'ion-card',
+          icon: this.md() ? null : 'fa-credit-card',
           label: 'Liste des prêts',
           page: Loans,
           key: "loans-page"
         },
         {
-          icon: this.md() ? null : 'ion-information-circled',
+          icon: this.md() ? null : 'fa-cog',
+          label: 'Paramètres',
+          page: Parameters,
+          key: "parameters-page"
+        },
+        {
+          icon: this.md() ? null : 'fa-question-circle',
           label: 'À propos',
           page: About,
           key: "about-page"

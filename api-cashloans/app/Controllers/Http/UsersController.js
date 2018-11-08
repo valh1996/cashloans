@@ -68,6 +68,21 @@ class UsersController {
     return await auth.getUser()
   }
 
+  /**
+   * Logout the current authentificated user
+   * @param {*}
+   */
+  async logout({auth, response}) {
+    try {
+      const user = await auth.getUser()
+      return await auth
+      .authenticator('jwt')
+      .revokeTokensForUser(user)
+    } catch (err) {
+      response.status(401).send({ error: 'something went wrong' });
+    }
+}
+
 }
 
 module.exports = UsersController

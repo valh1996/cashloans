@@ -25,6 +25,7 @@ Route
   .group(() => {
     // User auth routes
     Route.get('/', 'UsersController.getCurrent').middleware(['auth'])
+    Route.post('logout', 'UsersController.logout').middleware(['auth'])
 
     // No auth. routes
     Route.post('login', 'UsersController.login')

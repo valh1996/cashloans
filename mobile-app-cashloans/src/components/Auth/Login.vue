@@ -77,9 +77,9 @@ export default {
               let response = res.data;
 
               if (response.token && response.refreshToken) {
-                localStorage.jwt_token = response.token
-                localStorage.jwt_refreshToken = response.refreshToken
-                
+                localStorage.setItem('jwt_token', response.token)
+                localStorage.setItem('jwt_refreshToken', response.refreshToken)
+
                 this.$router.push({ name: 'Layout'})
               } else {
                 this.$ons.notification.alert('Une erreur est survenue. Merci de réessayer.')
