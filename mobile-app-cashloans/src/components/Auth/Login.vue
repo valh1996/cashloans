@@ -55,6 +55,8 @@
 </style>
 
 <script>
+import AuthService from '../../services/AuthService'
+
 export default {
   name: 'Login',
   key: 'loan-login-page',
@@ -70,7 +72,35 @@ export default {
       this.$router.push({ name: 'Register'})
     },
     login() {
-      this.$router.push({ name: 'Layout'})
+      AuthService.SignIn(this.email, this.password)
+          .then(res => {
+              let response = res.data;
+
+              if (response.token && response.refreshToken) {
+                localStorage.jwt_token = response.token
+                localStorage.jwt_refreshToken = response.refreshToken
+                
+                this.$router.push({ name: 'Layout'})
+              } else {
+                this.$ons.notification.alert('Une erreur est survenue. Merci de réessayer.')
+              }
+          })
+          .catch(err => {
+              let response = err.response;
+              
+              if (response.status && response.status === 401) {
+                  //Wrong credentials
+                  if (response.data.error) {
+                    this.$ons.notification.alert(response.data.error)
+                  }
+
+                  //validation rules error
+                  let rule = response.data[0];
+                  if (rule) {
+                    this.$ons.notification.alert(`${rule.message} !`)
+                  }
+              }
+          })
     }
   }
 }

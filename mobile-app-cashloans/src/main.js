@@ -15,6 +15,11 @@ Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 Vue.use(VueOnsen)
 
+const jwt_token = localStorage.jwt_token
+if (jwt_token) {
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt_token
+}
+
 new Vue({
   router: router,
   render: h => h(App)

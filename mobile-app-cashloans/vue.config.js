@@ -1,6 +1,6 @@
 module.exports = {
-  baseUrl: '',
+  baseUrl: process.env.NODE_ENV ? '' : '/',
   pluginOptions: {
-    cordovaPath: 'src-cordova'
+      cordovaPath: 'src-cordova'
   }
 }
