@@ -80,6 +80,11 @@ export default {
                 localStorage.setItem('jwt_token', response.token)
                 localStorage.setItem('jwt_refreshToken', response.refreshToken)
 
+                //set global header bearer token
+                if (localStorage.getItem('jwt_token')) {
+                  this.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.jwt_token
+                }
+
                 this.$router.push({ name: 'Layout'})
               } else {
                 this.$ons.notification.alert('Une erreur est survenue. Merci de réessayer.')
