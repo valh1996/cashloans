@@ -8,6 +8,16 @@ import Layout from '@/components/Layout/Page'
 
 Vue.use(Router)
 
+//Verifies that the user is authenticated before accessing the route, otherwise its redirects to the login form
+const ifAuthenticated = (to, from, next) => {
+  if (localStorage.jwt_token && localStorage.jwt_refreshToken) {
+    router.push({ name: 'Layout'})
+  } else {
+    next()
+    return
+  }
+}
+
 const router = new Router({
   routes: [
     {
@@ -17,14 +27,16 @@ const router = new Router({
       component: {
         template: '<router-view/>',
       },
+      beforeEnter: ifAuthenticated,
       meta: {
         requiresAuth: false
-      }
+      },
     },
     {
       path: '/signin',
       name: 'Login',
       component: Login,
+      beforeEnter: ifAuthenticated,
       meta: {
         requiresAuth: false
       }
@@ -33,6 +45,7 @@ const router = new Router({
       path: '/signup',
       name: 'Register',
       component: Register,
+      beforeEnter: ifAuthenticated,
       meta: {
         requiresAuth: false
       }
