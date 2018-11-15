@@ -31,7 +31,7 @@
         <p>
           <label for="loan_date">Date de l'emprunt</label><br>
           <input type="date" id="loan_date"
-            v-bind:value="loan.loan_date" :disabled="loan.returned">
+            v-bind:value="loan.loan_date" :disabled="loan.returned == 1">
         </p>
         <div>
           <v-ons-button modifier="large" class="edit" @click="editLoan" :disabled="loan.returned == 1">Modifier</v-ons-button>
@@ -55,7 +55,8 @@
   }
 
   #edit-form ons-input,
-  #edit-form textarea {
+  #edit-form textarea,
+  #edit-form input[type=date] {
     width: 100%;
     min-width: 100%;
   }
@@ -65,9 +66,22 @@
     border: none;
   }
 
+  #edit-form .edit {
+    margin-top: 25px;
+  }
+
   #edit-form .delete {
     background: #e52d2d;
     margin-top: 5px;
+  }
+
+  #edit-form textarea {
+    background: #e8e8e8;
+  }
+
+  #edit-form input[type=date] {
+    border: none;
+    background: #e8e8e8;
   }
 </style>
 
