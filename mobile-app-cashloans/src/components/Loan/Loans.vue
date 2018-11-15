@@ -13,7 +13,7 @@
       <v-ons-list-item v-for="loan in loans" :key="loan.id" @click="getLoanDetail(loan.id)">
         <div class="center">
           <span class="list-item__title">{{ loan.borrower_name }}</span>
-          <span class="list-item__subtitle loan-date">Emprunté le {{ loan.loan_date | moment('DD.MM.YYYY')}}</span>
+          <span class="list-item__subtitle loan-date">Prêté le {{ loan.loan_date | moment('DD.MM.YYYY')}}</span>
           <span class="list-item__subtitle loan-returned">{{ (loan.returned) ? 'Remboursé' : 'Non remboursé' }}</span>
         </div>
         <div class="right">

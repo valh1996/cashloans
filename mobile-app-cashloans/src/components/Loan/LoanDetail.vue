@@ -6,7 +6,7 @@
           <v-ons-icon icon="fa-chevron-left" class="list-item__icon"></v-ons-icon>
         </v-ons-toolbar-button>
       </div>
-      <div class="center title">Détail de l'emprunt</div>
+      <div class="center title">Détail du prêt</div>
       <div class="right">
         <v-ons-toolbar-button @click="markAsReimbursed" :disabled="loan.returned == 1">
           <v-ons-icon icon="fa-check-circle" class="list-item__icon"></v-ons-icon>
@@ -17,7 +17,7 @@
     <ons-row id="edit-form">
       <ons-col width="100%">
         <h3 v-if="loan.returned == 0">{{ loan.borrower_name }} vous doit {{ loan.amount | twoDecimal }} CHF</h3>
-        <h3 v-if="loan.returned_date">Cet emprunt a été remboursé le {{ loan.returned_date | moment("DD.MM.YYYY") }}</h3>
+        <h3 v-if="loan.returned_date">Cet prêt a été remboursé le {{ loan.returned_date | moment("DD.MM.YYYY") }}</h3>
       </ons-col>
       <ons-col width="100%">
         <p>
@@ -29,7 +29,7 @@
           <textarea class="textarea" rows="3" v-bind:value="loan.note" :disabled="loan.returned == 1"></textarea>
         </p>
         <p>
-          <label for="loan_date">Date de l'emprunt</label><br>
+          <label for="loan_date">Date du prêt</label><br>
           <input type="date" id="loan_date"
             v-bind:value="loan.loan_date" :disabled="loan.returned == 1">
         </p>
@@ -117,7 +117,7 @@
 
       },
       markAsReimbursed() {
-        this.$ons.notification.confirm('Confirmez-vous que cet emprunt a bien été remboursé ?')
+        this.$ons.notification.confirm('Confirmez-vous que ce prêt a bien été remboursé ?')
           .then((response) => {
             // Handle response
             if (+response) {
