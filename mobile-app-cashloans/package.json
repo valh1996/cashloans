@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "moment": "^2.22.2",
     "onsenui": "^2.10.5",
     "vue": "^2.5.17",
     "vue-axios": "^2.1.4",
+    "vue-moment": "^4.0.0",
     "vue-onsenui": "^2.6.1",
     "vue-router": "^3.0.1"
   },
