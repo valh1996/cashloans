@@ -17,7 +17,7 @@
     <ons-row id="edit-form">
       <ons-col width="100%">
         <h3 v-if="loan.returned == 0">{{ loan.borrower_name }} vous doit {{ loan.amount | twoDecimal }} CHF</h3>
-        <h3 v-else>Cet emprunt a été remboursé le xx.xx.xx</h3>
+        <h3 v-if="loan.returned_date">Cet emprunt a été remboursé le {{ loan.returned_date | moment("DD.MM.YYYY") }}</h3>
       </ons-col>
       <ons-col width="100%">
         <p>
@@ -99,6 +99,7 @@
       }
     },
     created: function() {
+      //Load the selected loan
       LoansService.getById(this.id)
         .then(response => {
           this.loan = response.data;
@@ -116,7 +117,20 @@
 
       },
       markAsReimbursed() {
+        this.$ons.notification.confirm('Confirmez-vous que cet emprunt a bien été remboursé ?')
+          .then((response) => {
+            // Handle response
+            if (+response) {
+              LoansService.markLoanAsReturned(this.id)
+                /* eslint-disable */
+                .then(response => {
+                  // We update the loan (as returned)
+                  this.loan.returned = 1
+                  this.loan.returned_date = moment(moment.now()).format('YYYY-MM-DD')
+                });
+            }
 
+          });
       }
     },
   }

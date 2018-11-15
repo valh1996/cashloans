@@ -9,6 +9,9 @@ import VueAxios from 'vue-axios'
 import VueOnsen from 'vue-onsenui'
 import VueMoment from 'vue-moment'
 
+const moment = require('moment')
+require('moment/locale/fr')
+
 //filter(s)
 import "./filters/index"
 
@@ -16,7 +19,9 @@ Vue.config.productionTip = false
 
 Vue.use(VueAxios, axios)
 Vue.use(VueOnsen)
-Vue.use(VueMoment);
+Vue.use(VueMoment, {
+  moment
+})
 
 //Global headers if jwt token exists
 const jwt_token = localStorage.jwt_token
