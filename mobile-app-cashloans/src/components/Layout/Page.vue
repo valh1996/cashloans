@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Loans from '../Loans.vue'
+import Loans from '../Loan/Loans.vue'
 import About from '../About.vue'
 import Parameters from '../Parameters.vue'
 

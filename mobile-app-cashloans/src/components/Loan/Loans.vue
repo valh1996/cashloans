@@ -17,9 +17,8 @@
   /* CSS goes here */
 </style>
 
-<script >
-  import LoanDetail from './LoanDetail.vue'
-  import LoansService from '../services/LoansService'
+<script>
+  import LoansService from '../../services/LoansService'
 
   export default {
     name: 'Loans',
