@@ -1,8 +1,5 @@
 <template id="page">
   <v-ons-page>
-    <v-ons-toolbar>
-      <div class="center">{{ title }}</div>
-    </v-ons-toolbar>
 
     <v-ons-tabbar swipeable position="auto"
       :tabs="tabs"

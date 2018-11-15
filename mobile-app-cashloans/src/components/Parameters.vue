@@ -1,5 +1,8 @@
 <template id="parameters-page">
   <v-ons-page>
+    <v-ons-toolbar>
+      <div class="center">Paramètres</div>
+    </v-ons-toolbar>
 
     <ons-row id="parameters">
       <ons-col>

@@ -1,5 +1,14 @@
 <template id="loans-page">
   <v-ons-page>
+    <v-ons-toolbar>
+      <div class="center">Liste des prêts</div>
+      <div class="right">
+        <v-ons-toolbar-button>
+          <v-ons-icon icon="fa-plus-circle" class="list-item__icon"></v-ons-icon>
+        </v-ons-toolbar-button>
+      </div>
+    </v-ons-toolbar>
+
     <v-ons-list>
       <v-ons-list-item v-for="loan in loans" :key="loan.id" @click="getLoanDetail(loan.id)">
         <div class="center">
