@@ -1,13 +1,12 @@
 <template id="loan-detail-page">
   <v-ons-page>
     <v-ons-toolbar>
-      <div class="left">
-        <a @click="back">
+      <div class="left back">
+        <v-ons-toolbar-button @click="back">
           <v-ons-icon icon="fa-chevron-left" class="list-item__icon"></v-ons-icon>
-          <span>Retour</span>
-        </a>
+        </v-ons-toolbar-button>
       </div>
-      <div class="center">Détail de l'emprunt</div>
+      <div class="center title">Détail de l'emprunt</div>
     </v-ons-toolbar>
     <p>
       Emprunt #{{ id }}
@@ -20,9 +19,6 @@
     text-align: center;
     padding: 20px;
   }
-  .list-item__icon {
-    font-size: 16px!important;
-  }
 </style>
 
 <script>
@@ -32,8 +28,8 @@
     props: ['id'],
     methods: {
       back() {
-        this.$router.go(-1)
-      }
+        this.$router.push({ name: 'Layout'})
+      },
     },
   }
 </script>
