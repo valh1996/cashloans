@@ -3,7 +3,7 @@
     <v-ons-toolbar>
       <div class="center">Liste des prêts</div>
       <div class="right">
-        <v-ons-toolbar-button>
+        <v-ons-toolbar-button @click="addLoan">
           <v-ons-icon icon="fa-plus-circle" class="list-item__icon"></v-ons-icon>
         </v-ons-toolbar-button>
       </div>
@@ -56,6 +56,9 @@
     methods: {
       getLoanDetail(id) {
         this.$router.push({ name: 'LoanDetail', params: { id: id }})
+      },
+      addLoan() {
+        this.$router.push({ name: 'NewLoan'})
       }
     }
   }

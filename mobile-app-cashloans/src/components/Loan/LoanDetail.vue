@@ -22,7 +22,7 @@
       <ons-col width="100%">
         <p>
           <label for="amount">Montant</label><br>
-          <ons-input type="number" step=".01" id="amount" modifier="underbar" v-bind:value="loan.amount" v-model="loan.amount" :disabled="loan.returned == 1" float></ons-input>
+          <v-ons-input type="number" step=".01" id="amount" modifier="underbar" v-bind:value="loan.amount" v-model="loan.amount" :disabled="loan.returned == 1" float></v-ons-input>
         </p>
         <p>
           <label for="amount">Note personnelle</label><br>

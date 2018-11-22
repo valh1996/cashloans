@@ -26,6 +26,17 @@ export default {
    */
   markLoanAsReturned(id) {
     return Axios.put(`${API_ENDPOINT}/loans/${id}/return`)
-  }
+  },
 
+  /**
+   * Add a new loan to the database
+   * @param {object} params 
+   */
+  add(params) {
+    if (!params) {
+      params = {};
+    }
+    
+    return Axios.post(`${API_ENDPOINT}/loans`, params)
+  }
 }

@@ -4,6 +4,7 @@ import Login from '@/components/Auth/Login'
 import Register from '@/components/Auth/Register'
 import Loans from '@/components/Loan/Loans'
 import LoanDetail from '@/components/Loan/LoanDetail'
+import AddLoan from '@/components/Loan/AddLoan'
 import Layout from '@/components/Layout/Page'
 
 Vue.use(Router)
@@ -71,6 +72,14 @@ const router = new Router({
       name: 'LoanDetail',
       component: LoanDetail,
       props: true,
+      meta: {
+        requiresAuth: true
+      },
+    },
+    {
+      path: '/loans/add',
+      name: 'NewLoan',
+      component: AddLoan,
       meta: {
         requiresAuth: true
       },
