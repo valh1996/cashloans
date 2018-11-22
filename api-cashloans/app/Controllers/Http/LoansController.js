@@ -12,7 +12,10 @@ class LoansController {
    */
   async index({auth}) {
     const user = await auth.getUser()
-    return await user.loans().fetch()
+    return await user
+      .loans()
+      .orderBy('id', 'desc')
+      .fetch()
   }
 
   /**
