@@ -38,5 +38,13 @@ export default {
     }
     
     return Axios.post(`${API_ENDPOINT}/loans`, params)
-  }
+  },
+
+  /**
+   * Delete a loan from database
+   * @param {int} id 
+   */
+  delete(id) {
+    return Axios.delete(`${API_ENDPOINT}/loans/${id}`)
+  },
 }

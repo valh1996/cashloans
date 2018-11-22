@@ -110,8 +110,19 @@
       back() {
         this.$router.push({ name: 'Layout'})
       },
-      deleteLoan() {
-
+      deleteLoan() { 
+        this.$ons.notification.confirm('Voulez-vous vraiment supprimer cet emprunt ?')
+          .then((response) => {
+            // Handle response
+            if (+response) {
+              LoansService.delete(this.id)
+                /* eslint-disable */
+                .then(response => {
+                  this.$router.push({ name: 'Layout'})
+                  this.$ons.notification.alert(`L'emprunt a été supprimé !`)
+                })
+            }
+          });
       },
       editLoan() {
 
