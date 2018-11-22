@@ -41,6 +41,18 @@ export default {
   },
 
   /**
+   * Update a loan by id
+   * @param {object} params 
+   */
+  update(id, params) {
+    if (!params) {
+      params = {};
+    }
+    
+    return Axios.put(`${API_ENDPOINT}/loans/${id}`, params)
+  },
+
+  /**
    * Delete a loan from database
    * @param {int} id 
    */

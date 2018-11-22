@@ -17,21 +17,21 @@
     <ons-row id="edit-form">
       <ons-col width="100%">
         <h3 v-if="loan.returned == 0">{{ loan.borrower_name }} vous doit {{ loan.amount | twoDecimal }} CHF</h3>
-        <h3 v-if="loan.returned_date">Cet prêt a été remboursé le {{ loan.returned_date | moment("DD.MM.YYYY") }}</h3>
+        <h3 v-if="loan.returned_date">Ce prêt a été remboursé le {{ loan.returned_date | moment("DD.MM.YYYY") }}</h3>
       </ons-col>
       <ons-col width="100%">
         <p>
           <label for="amount">Montant</label><br>
-          <v-ons-input type="number" step=".01" id="amount" modifier="underbar" v-bind:value="loan.amount" v-model="loan.amount" :disabled="loan.returned == 1" float></v-ons-input>
+          <v-ons-input type="number" step=".01" id="amount" modifier="underbar" v-model="loan.amount" :disabled="loan.returned == 1" float></v-ons-input>
         </p>
         <p>
           <label for="amount">Note personnelle</label><br>
-          <textarea class="textarea" rows="3" v-bind:value="loan.note" :disabled="loan.returned == 1"></textarea>
+          <textarea class="textarea" rows="3" v-model="loan.note" :disabled="loan.returned == 1"></textarea>
         </p>
         <p>
           <label for="loan_date">Date du prêt</label><br>
           <input type="date" id="loan_date"
-            v-bind:value="loan.loan_date" :disabled="loan.returned == 1">
+            v-model="loan.loan_date" :disabled="loan.returned == 1">
         </p>
         <div>
           <v-ons-button modifier="large" class="edit" @click="editLoan" :disabled="loan.returned == 1">Modifier</v-ons-button>
@@ -125,7 +125,23 @@
           });
       },
       editLoan() {
+        this.$ons.notification.confirm('Êtes-vous sûr de vouloir modifier cet emprunt ?')
+          .then((response) => {
+            // Handle response
+            if (+response) {
+              let loan = {
+                amount: this.loan.amount,
+                note: this.loan.note,
+                loan_date: this.loan.loan_date
+              }
 
+              LoansService.update(this.id, loan)
+                /* eslint-disable */
+                .then(response => {
+                  this.$ons.notification.alert(`L'emprunt a été modifié !`)
+                })
+            }
+          });
       },
       markAsReimbursed() {
         this.$ons.notification.confirm('Confirmez-vous que ce prêt a bien été remboursé ?')

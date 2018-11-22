@@ -73,27 +73,24 @@ class LoansController {
    */
   async update({params, request, response}) {
     const rules = {
-      borrower_name: 'required',
       amount: 'required|number',
       note: 'required|max:500',
       loan_date: 'required|date',
     }
 
-    const { borrower_name, amount, note, loan_date } = request.only([
-      'borrower_name',
+    const { amount, note, loan_date } = request.only([
       'amount',
       'note',
       'loan_date'
     ]);
     
-    const validator = await validate({ borrower_name, amount, note, loan_date }, rules);
+    const validator = await validate({amount, note, loan_date }, rules);
 
     if (!validator.fails()) {
       try {
         const loan = await Loan.find(params.id)
 
         if (loan && !loan.returned) {
-          loan.borrower_name = borrower_name;
           loan.amount = amount;
           loan.note = note;
           loan.loan_date = loan_date;
