@@ -11,15 +11,15 @@ export default {
    * Get all loans from API
    */
   getAll(){
-    if (NetworkHelper.isOnline) {
+    if (!NetworkHelper.isOnline) {
       return Axios.get(`${API_ENDPOINT}/loans`)
         .then(res => {
           let data = res.data;
           //cache data for offline mode
           DatabaseHelper.transaction((tx) => {
-            tx.executeSql('DELETE FROM loans', [], (tx) => {
+            tx.executeSql('DELETE FROM Loans', [], (tx) => {
               data.map(row => {
-                tx.executeSql(`INSERT INTO loans 
+                tx.executeSql(`INSERT INTO Loans 
                                 (id, borrower_name, amount, note, loan_date, returned_date, returned, user_id, created_at, updated_at) 
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
                                   row.id,
@@ -42,7 +42,7 @@ export default {
     } else {
       return new Promise((resolve) => {
         DatabaseHelper.transaction((tx) => {
-          tx.executeSql('SELECT * FROM loans', [], (tx, results) => {
+          tx.executeSql('SELECT * FROM Loans ORDER BY loan_date DESC', [], (tx, results) => {
             resolve(results.rows)
           });
         });
@@ -55,12 +55,13 @@ export default {
    * @param {int} id loan identifier
    */
   getById(id) {
-    if (NetworkHelper.isOnline) {
+    if (!NetworkHelper.isOnline) {
       return Axios.get(`${API_ENDPOINT}/loans/${id}`)
+        .then(res => res.data)
     } else {
       return new Promise((resolve) => {
         DatabaseHelper.transaction((tx) => {
-          tx.executeSql('SELECT * FROM loans WHERE id = ?', [id], (tx, results) => {
+          tx.executeSql('SELECT * FROM Loans WHERE id = ?', [id], (tx, results) => {
             results.rows[0].amount = parseFloat(results.rows[0].amount)
             resolve(results.rows[0])
           });
@@ -74,12 +75,12 @@ export default {
    * @param {int} id loan identifier
    */
   markLoanAsReturned(id) {
-    if (NetworkHelper.isOnline) {
+    if (!NetworkHelper.isOnline) {
       return Axios.put(`${API_ENDPOINT}/loans/${id}/return`)
     } else {
       return new Promise((resolve) => {
         DatabaseHelper.transaction((tx) => {
-          tx.executeSql('UPDATE loans SET returned = ? WHERE id = ?;', [1, id], (tx, results) => {
+          tx.executeSql('UPDATE Loans SET returned = ? WHERE id = ?;', [1, id], (tx, results) => {
             resolve(results)
           });
         });
@@ -95,8 +96,25 @@ export default {
     if (!params) {
       params = {};
     }
-    
-    return Axios.post(`${API_ENDPOINT}/loans`, params)
+
+    if (!NetworkHelper.isOnline) {
+      return Axios.post(`${API_ENDPOINT}/loans`, params)
+    } else {
+      return new Promise((resolve) => {
+        DatabaseHelper.transaction((tx) => {
+          tx.executeSql(`INSERT INTO Loans 
+                                    (borrower_name, amount, note, loan_date) 
+                                    VALUES (?, ?, ?, ?)`, [
+                                      params.borrower_name,
+                                      params.amount,
+                                      (params.note) ? params.note : '',
+                                      params.loan_date,
+                                  ], () => {
+                                    resolve('Loan inserted!')
+                                  });
+        });
+      })
+    }
   },
 
   /**

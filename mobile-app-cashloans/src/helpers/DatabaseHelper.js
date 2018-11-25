@@ -10,7 +10,7 @@ db.transaction((tx) => {
                       loan_date TEXT NOT NULL,
                       returned_date TEXT,
                       returned INTEGER DEFAULT 0,
-                      user_id INTEGER NOT NULL,
+                      user_id INTEGER,
                       created_at TEXT, 
                       updated_at TEXT
     )`,[], () => {}, null);
