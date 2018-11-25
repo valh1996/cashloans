@@ -55,7 +55,7 @@ export default {
    * @param {int} id loan identifier
    */
   getById(id) {
-    if (!NetworkHelper.isOnline) {
+    if (NetworkHelper.isOnline) {
       return Axios.get(`${API_ENDPOINT}/loans/${id}`)
     } else {
       return new Promise((resolve) => {
@@ -74,7 +74,17 @@ export default {
    * @param {int} id loan identifier
    */
   markLoanAsReturned(id) {
-    return Axios.put(`${API_ENDPOINT}/loans/${id}/return`)
+    if (NetworkHelper.isOnline) {
+      return Axios.put(`${API_ENDPOINT}/loans/${id}/return`)
+    } else {
+      return new Promise((resolve) => {
+        DatabaseHelper.transaction((tx) => {
+          tx.executeSql('UPDATE loans SET returned = ? WHERE id = ?;', [1, id], (tx, results) => {
+            resolve(results)
+          });
+        });
+      })
+    }
   },
 
   /**
