@@ -11,7 +11,7 @@ export default {
    * Get all loans from API
    */
   getAll(){
-    if (!NetworkHelper.isOnline) {
+    if (NetworkHelper.isOnline) {
       return Axios.get(`${API_ENDPOINT}/loans`)
         .then(res => {
           let data = res.data;
@@ -57,7 +57,7 @@ export default {
    * @param {int} id loan identifier
    */
   getById(id) {
-    if (!NetworkHelper.isOnline) {
+    if (NetworkHelper.isOnline) {
       return Axios.get(`${API_ENDPOINT}/loans/${id}`)
         .then(res => res.data)
     } else {
@@ -79,7 +79,7 @@ export default {
    * @param {int} id loan identifier
    */
   markLoanAsReturned(id) {
-    if (!NetworkHelper.isOnline) {
+    if (NetworkHelper.isOnline) {
       return Axios.put(`${API_ENDPOINT}/loans/${id}/return`)
     } else {
       return new Promise((resolve, reject) => {
@@ -103,7 +103,7 @@ export default {
       params = {};
     }
 
-    if (!NetworkHelper.isOnline) {
+    if (NetworkHelper.isOnline) {
       return Axios.post(`${API_ENDPOINT}/loans`, params)
     } else {
       return new Promise((resolve, reject) => {
@@ -135,7 +135,7 @@ export default {
       params = {};
     }
     
-    if (!NetworkHelper.isOnline) {
+    if (NetworkHelper.isOnline) {
       return Axios.put(`${API_ENDPOINT}/loans/${id}`, params)
     } else {
       return new Promise((resolve, reject) => {
@@ -156,7 +156,7 @@ export default {
    * @param {int} id 
    */
   delete(id) {
-    if (!NetworkHelper.isOnline) {
+    if (NetworkHelper.isOnline) {
       return Axios.delete(`${API_ENDPOINT}/loans/${id}`)
     } else {
       return new Promise((resolve, reject) => {

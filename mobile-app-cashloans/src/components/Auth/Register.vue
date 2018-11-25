@@ -32,7 +32,7 @@
             </label>
           </v-ons-list-item>
           <v-ons-list-item>
-            <v-ons-button class="btn login">S'inscrire</v-ons-button>
+            <v-ons-button class="btn login" @click="login">S'inscrire</v-ons-button>
             <v-ons-button modifier="outline" class="btn register" @click="pushLoginPage()">Déjà inscrit ?</v-ons-button>
           </v-ons-list-item>
         </v-ons-list>
@@ -63,6 +63,8 @@
 </style>
 
 <script>
+import AuthService from '../../services/AuthService'
+
 export default {
   name: 'Register',
   key: 'loan-register-page',
@@ -75,6 +77,35 @@ export default {
     }
   },
   methods: {
+    login() {
+      AuthService.SignUp(this.username, this.email, this.password)
+          .then(res => {
+              let response = res.data;
+
+              if (response.token && response.refreshToken) {
+                this.$router.push({ name: 'Login'})
+                this.$ons.notification.alert('Inscription réussie !')
+              } else {
+                this.$ons.notification.alert('Une erreur est survenue. Merci de réessayer.')
+              }
+          })
+          .catch(err => {
+              let response = err.response;
+              
+              if (response.status && response.status === 401) {
+                  //Wrong credentials
+                  if (response.data.error) {
+                    this.$ons.notification.alert(response.data.error)
+                  }
+
+                  //validation rules error
+                  let rule = response.data[0];
+                  if (rule) {
+                    this.$ons.notification.alert(`${rule.message} !`)
+                  }
+              }
+          })
+    },
     pushLoginPage() {
       this.$router.push({ name: 'Login'})
     }

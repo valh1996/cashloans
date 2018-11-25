@@ -17,6 +17,21 @@ export default {
             password: password,
         })
     },
+
+    /**
+     * SignIn from API
+     */
+    SignUp(username, email, password){
+        return Axios.post(`${API_ENDPOINT}/user/signup`, {
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              username: username,
+              email: email,
+              password: password,
+          })
+    },
+
     /**
      * Logout from API
      */
