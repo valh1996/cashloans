@@ -12,7 +12,9 @@ db.transaction((tx) => {
                       returned INTEGER DEFAULT 0,
                       user_id INTEGER,
                       created_at TEXT, 
-                      updated_at TEXT
+                      updated_at TEXT,
+                      new_record INTEGER DEFAULT 0,
+                      edit_record INTEGER DEFAULT 0
     )`,[], () => {}, null);
 });
 

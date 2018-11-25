@@ -40,10 +40,12 @@ export default {
           return data;
         })
     } else {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         DatabaseHelper.transaction((tx) => {
-          tx.executeSql('SELECT * FROM Loans ORDER BY loan_date DESC', [], (tx, results) => {
+          tx.executeSql('SELECT * FROM Loans ORDER BY id DESC', [], (tx, results) => {
             resolve(results.rows)
+          }, (tx, err) => {
+            reject(err.message)
           });
         });
       })      
@@ -59,12 +61,14 @@ export default {
       return Axios.get(`${API_ENDPOINT}/loans/${id}`)
         .then(res => res.data)
     } else {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         DatabaseHelper.transaction((tx) => {
           tx.executeSql('SELECT * FROM Loans WHERE id = ?', [id], (tx, results) => {
             results.rows[0].amount = parseFloat(results.rows[0].amount)
             resolve(results.rows[0])
           });
+        }, (tx, err) => {
+          reject(err.message)
         });
       })
     }
@@ -78,10 +82,12 @@ export default {
     if (!NetworkHelper.isOnline) {
       return Axios.put(`${API_ENDPOINT}/loans/${id}/return`)
     } else {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         DatabaseHelper.transaction((tx) => {
-          tx.executeSql('UPDATE Loans SET returned = ? WHERE id = ?;', [1, id], (tx, results) => {
+          tx.executeSql('UPDATE Loans SET returned = ?, edit_record = ? WHERE id = ?;', [1, 1, id], (tx, results) => {
             resolve(results)
+          }, (tx, err) => {
+            reject(err.message)
           });
         });
       })
@@ -100,17 +106,20 @@ export default {
     if (!NetworkHelper.isOnline) {
       return Axios.post(`${API_ENDPOINT}/loans`, params)
     } else {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         DatabaseHelper.transaction((tx) => {
           tx.executeSql(`INSERT INTO Loans 
-                                    (borrower_name, amount, note, loan_date) 
-                                    VALUES (?, ?, ?, ?)`, [
+                                    (borrower_name, amount, note, loan_date, new_record) 
+                                    VALUES (?, ?, ?, ?, ?)`, [
                                       params.borrower_name,
                                       params.amount,
                                       (params.note) ? params.note : '',
                                       params.loan_date,
+                                      1
                                   ], () => {
                                     resolve('Loan inserted!')
+                                  }, (tx, err) => {
+                                    reject(err.message)
                                   });
         });
       })
@@ -126,7 +135,20 @@ export default {
       params = {};
     }
     
-    return Axios.put(`${API_ENDPOINT}/loans/${id}`, params)
+    if (!NetworkHelper.isOnline) {
+      return Axios.put(`${API_ENDPOINT}/loans/${id}`, params)
+    } else {
+      return new Promise((resolve, reject) => {
+        DatabaseHelper.transaction((tx) => {
+          tx.executeSql('UPDATE Loans SET amount = ?, note = ?, loan_date = ?, edit_record = ? WHERE id = ?;', 
+            [params.amount, params.note, params.loan_date, 1, id], (tx, results) => {
+              resolve(results)
+          }, (tx, err) => {
+            reject(err.message)
+          });
+        });
+      })
+    }
   },
 
   /**
@@ -134,6 +156,20 @@ export default {
    * @param {int} id 
    */
   delete(id) {
-    return Axios.delete(`${API_ENDPOINT}/loans/${id}`)
+    if (!NetworkHelper.isOnline) {
+      return Axios.delete(`${API_ENDPOINT}/loans/${id}`)
+    } else {
+      return new Promise((resolve, reject) => {
+        DatabaseHelper.transaction((tx) => {
+          tx.executeSql('DELETE FROM Loans WHERE id = ?', 
+            [id], (tx, results) => {
+              resolve(results)
+          }, (tx, err) => {
+            reject(err.message)
+          });
+        });
+      })
+    }
+
   },
 }
