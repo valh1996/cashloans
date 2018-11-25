@@ -1,0 +1,1 @@
+exports.isOnline = navigator.onLine;

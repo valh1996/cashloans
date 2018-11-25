@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "dexie": "^2.0.4",
     "moment": "^2.22.2",
     "onsenui": "^2.10.5",
     "vue": "^2.5.17",

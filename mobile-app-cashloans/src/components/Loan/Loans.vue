@@ -47,11 +47,10 @@
     },
     created: function() {
       LoansService.getAll()
-        .then(response => {
-          this.loans = response.data;
+        .then(data => {
+          this.loans = data;
         })
         //.catch(err => console.log(err))
-
     },
     methods: {
       getLoanDetail(id) {
