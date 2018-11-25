@@ -102,7 +102,7 @@
       //Load the selected loan
       LoansService.getById(this.id)
         .then(response => {
-          this.loan = response.data;
+          this.loan = response;
           this.loan.loan_date = moment(this.loan.loan_date).format('YYYY-MM-DD');
         })
     },

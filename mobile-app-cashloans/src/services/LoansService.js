@@ -55,7 +55,18 @@ export default {
    * @param {int} id loan identifier
    */
   getById(id) {
-    return Axios.get(`${API_ENDPOINT}/loans/${id}`)
+    if (!NetworkHelper.isOnline) {
+      return Axios.get(`${API_ENDPOINT}/loans/${id}`)
+    } else {
+      return new Promise((resolve) => {
+        DatabaseHelper.transaction((tx) => {
+          tx.executeSql('SELECT * FROM loans WHERE id = ?', [id], (tx, results) => {
+            results.rows[0].amount = parseFloat(results.rows[0].amount)
+            resolve(results.rows[0])
+          });
+        });
+      })
+    }
   },
 
   /**
